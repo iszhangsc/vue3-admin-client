@@ -46,7 +46,7 @@
           <el-table-column prop="phone" label="电话" width="120" />
           <el-table-column prop="role" label="角色" width="150" />
           <el-table-column prop="roleName" label="角色名称" width="150" />
-          <el-table-column prop="createdAt" label="创建时间" width="180" />
+          <el-table-column prop="createTime" label="创建时间" width="180" />
           <el-table-column prop="remark" label="备注" width="180" />
           <el-table-column fixed="right" prop="operation" label="操作" width="160" align="center">
             <template #default="{ row }">
@@ -176,13 +176,9 @@ const handleCurrentChange = async (val: number) => {
 }
 
 const handleDelete = async (id: number) => {
-  const res = await deleteUser(id)
-  if (res.code !== 200) {
-    ElMessage.error(res.msg)
-  } else {
-    onSearch()
-    ElMessage.success(res.msg)
-  }
+  await deleteUser(id)
+  await onSearch()
+  ElMessage.success('删除成功')
 }
 
 const userDialogRef = ref<InstanceType<typeof UserDialog>>()

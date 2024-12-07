@@ -37,7 +37,7 @@
         <div class="dialog-footer">
           <el-form-item>
             <el-button @click="handleCancel">取消</el-button>
-            <el-button type="primary" @click="handleConfirm"> 确认 </el-button>
+            <el-button type="primary" @click="handleConfirm"> 确认</el-button>
           </el-form-item>
         </div>
       </el-form>
@@ -81,7 +81,7 @@
         <div class="dialog-footer">
           <el-form-item>
             <el-button @click="handleCancel">取消</el-button>
-            <el-button type="primary" @click="handleConfirm"> 确认 </el-button>
+            <el-button type="primary" @click="handleConfirm"> 确认</el-button>
           </el-form-item>
         </div>
       </el-form>
@@ -94,6 +94,7 @@ import { ref, reactive, toRaw, onMounted } from 'vue'
 import { ElMessage, FormInstance } from 'element-plus'
 import { addDept, editDept, getDepartmentsAll } from '@/api/modules/system'
 import { Department } from '@/api/interface/system'
+
 const isEdit = ref(false)
 const dialogVisible = ref(false)
 
@@ -119,11 +120,7 @@ onMounted(() => {
 const treeData = ref<Department[]>([])
 const initDepts = async () => {
   const res = await getDepartmentsAll()
-  if (res.code === 200) {
-    treeData.value = res.data
-  } else {
-    ElMessage.error(res.msg)
-  }
+  treeData.value = res.data
 }
 
 const handleNew = () => {
@@ -162,29 +159,21 @@ const handleConfirm = () => {
     deptFormRef.value?.validate(async (valid) => {
       if (valid) {
         // 新增用户
-        const res = await addDept(toRaw(deptForm))
-        if (res.code !== 200) {
-          ElMessage.error(res.msg)
-        } else {
-          deptFormRef.value?.resetFields()
-          dialogVisible.value = false
-          emits('refresh')
-          ElMessage.success(res.msg)
-        }
+        await addDept(toRaw(deptForm))
+        deptFormRef.value?.resetFields()
+        dialogVisible.value = false
+        emits('refresh')
+        ElMessage.success('新增成功')
       }
     })
   } else {
     editDeptFormRef.value?.validate(async (valid) => {
       if (valid) {
-        const res = await editDept(toRaw(editDeptForm))
-        if (res.code !== 200) {
-          ElMessage.error(res.msg)
-        } else {
-          editDeptFormRef.value?.resetFields()
-          dialogVisible.value = false
-          emits('refresh')
-          ElMessage.success(res.msg)
-        }
+        await editDept(toRaw(editDeptForm))
+        editDeptFormRef.value?.resetFields()
+        dialogVisible.value = false
+        emits('refresh')
+        ElMessage.success('修改成功')
       }
     })
   }

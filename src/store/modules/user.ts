@@ -32,10 +32,8 @@ export const useUserStore = defineStore({
     // Set setUserInfo
     async getUserInfo(userId: number) {
       if (userId) {
-        const res = await getUserInfoApi(userId)
-        if (res.code === 200) {
-          this.userInfo = res.data
-        }
+        const res = await getUserInfoApi()
+        this.userInfo = res.data
       }
     }
   },

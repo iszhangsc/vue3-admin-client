@@ -18,7 +18,7 @@ export interface Role {
   roleName: string
   isSuper: number
   remark: string
-  createdAt: string
+  createTime: string
 }
 
 export interface Menu {
@@ -30,7 +30,7 @@ export interface Menu {
   parentId: number
   sort: number
   meta: MetaProps
-  createdAt: string
+  createTime: string
   children?: Menu[]
 }
 
@@ -56,6 +56,6 @@ export interface Department {
   name: string
   sort: number
   isEnable: number
-  createdAt: string
+  createTime: string
   children?: Department[]
 }

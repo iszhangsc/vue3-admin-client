@@ -129,12 +129,8 @@ async function onSearch() {
 
 const handleDelete = async (id: number) => {
   const res = await deleteMenu(id)
-  if (res.code !== 200) {
-    ElMessage.error(res.msg)
-  } else {
-    onSearch()
-    ElMessage.success(res.msg)
-  }
+  this.onSearch()
+  ElMessage.success('删除成功')
 }
 
 const menuDialogRef = ref<InstanceType<typeof MenuDialog>>()

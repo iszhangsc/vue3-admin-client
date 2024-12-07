@@ -92,7 +92,7 @@
         <div class="dialog-footer">
           <el-form-item>
             <el-button @click="handleCancel">取消</el-button>
-            <el-button type="primary" @click="handleConfirm"> 确认 </el-button>
+            <el-button type="primary" @click="handleConfirm"> 确认</el-button>
           </el-form-item>
         </div>
       </el-form>
@@ -171,7 +171,7 @@
         <div class="dialog-footer">
           <el-form-item>
             <el-button @click="handleCancel">取消</el-button>
-            <el-button type="primary" @click="handleConfirm"> 确认 </el-button>
+            <el-button type="primary" @click="handleConfirm"> 确认</el-button>
           </el-form-item>
         </div>
       </el-form>
@@ -184,6 +184,7 @@ import { ref, reactive, toRaw, onMounted } from 'vue'
 import { ElMessage, FormInstance } from 'element-plus'
 import { addUser, editUser, getDepartmentsAll, getRolesAll } from '@/api/modules/system'
 import { Department, User } from '@/api/interface/system'
+
 const isEdit = ref(false)
 const dialogVisible = ref(false)
 
@@ -258,26 +259,18 @@ const roleOptions = ref<{ value: number; label: string }[]>([])
 
 const initRoles = async () => {
   const res = await getRolesAll()
-  if (res.code === 200) {
-    roleOptions.value = res.data.map((item) => {
-      return {
-        value: item.id,
-        label: item.role
-      }
-    })
-  } else {
-    ElMessage.error(res.msg)
-  }
+  roleOptions.value = res.data.map((item) => {
+    return {
+      value: item.id,
+      label: item.role
+    }
+  })
 }
 
 const treeData = ref<Department[]>([])
 const initDepts = async () => {
   const res = await getDepartmentsAll()
-  if (res.code === 200) {
-    treeData.value = res.data
-  } else {
-    ElMessage.error(res.msg)
-  }
+  treeData.value = res.data
 }
 
 const handleNew = () => {
@@ -320,29 +313,21 @@ const handleConfirm = () => {
     userFormRef.value?.validate(async (valid) => {
       if (valid) {
         // 新增用户
-        const res = await addUser(toRaw(userForm))
-        if (res.code !== 200) {
-          ElMessage.error(res.msg)
-        } else {
-          userFormRef.value?.resetFields()
-          dialogVisible.value = false
-          emits('refresh')
-          ElMessage.success(res.msg)
-        }
+        await addUser(toRaw(userForm))
+        userFormRef.value?.resetFields()
+        dialogVisible.value = false
+        emits('refresh')
+        ElMessage.success('新增成功')
       }
     })
   } else {
     editUserFormRef.value?.validate(async (valid) => {
       if (valid) {
-        const res = await editUser(toRaw(editUserForm))
-        if (res.code !== 200) {
-          ElMessage.error(res.msg)
-        } else {
-          editUserFormRef.value?.resetFields()
-          dialogVisible.value = false
-          emits('refresh')
-          ElMessage.success(res.msg)
-        }
+        await editUser(toRaw(editUserForm));
+        editUserFormRef.value?.resetFields()
+        dialogVisible.value = false
+        emits('refresh')
+        ElMessage.success('修改成功')
       }
     })
   }

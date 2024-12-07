@@ -94,7 +94,7 @@
         <div class="dialog-footer">
           <el-form-item>
             <el-button @click="handleCancel">取消</el-button>
-            <el-button type="primary" @click="handleConfirm"> 确认 </el-button>
+            <el-button type="primary" @click="handleConfirm"> 确认</el-button>
           </el-form-item>
         </div>
       </el-form>
@@ -188,7 +188,7 @@
         <div class="dialog-footer">
           <el-form-item>
             <el-button @click="handleCancel">取消</el-button>
-            <el-button type="primary" @click="handleConfirm"> 确认 </el-button>
+            <el-button type="primary" @click="handleConfirm"> 确认</el-button>
           </el-form-item>
         </div>
       </el-form>
@@ -203,6 +203,7 @@ import { addMenu, editMenu } from '@/api/modules/system'
 import { Menu } from '@/api/interface/system'
 import { useAuthStore } from '@/store/modules/auth'
 import { MenuOption, getTreeMenuOptions } from '@/utils'
+
 const isEdit = ref(false)
 const dialogVisible = ref(false)
 
@@ -273,7 +274,7 @@ const initMenus = async () => {
         isKeepAlive: false
       },
       component: '',
-      createdAt: ''
+      createTime: ''
     }
   ]
   menuList[0].children = menuData.value
@@ -323,29 +324,21 @@ const handleConfirm = () => {
     menuFormRef.value?.validate(async (valid) => {
       if (valid) {
         // 新增用户
-        const res = await addMenu(toRaw(menuForm))
-        if (res.code !== 200) {
-          ElMessage.error(res.msg)
-        } else {
-          menuFormRef.value?.resetFields()
-          dialogVisible.value = false
-          emits('refresh')
-          ElMessage.success(res.msg)
-        }
+        await addMenu(toRaw(menuForm))
+        menuFormRef.value?.resetFields()
+        dialogVisible.value = false
+        emits('refresh')
+        ElMessage.success('新增成功')
       }
     })
   } else {
     editMenuFormRef.value?.validate(async (valid) => {
       if (valid) {
-        const res = await editMenu(toRaw(editMenuForm))
-        if (res.code !== 200) {
-          ElMessage.error(res.msg)
-        } else {
-          editMenuFormRef.value?.resetFields()
-          dialogVisible.value = false
-          emits('refresh')
-          ElMessage.success(res.msg)
-        }
+        await editMenu(toRaw(editMenuForm))
+        editMenuFormRef.value?.resetFields()
+        dialogVisible.value = false
+        emits('refresh')
+        ElMessage.success('修改成功')
       }
     })
   }

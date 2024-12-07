@@ -53,6 +53,7 @@ import { Department } from '@/api/interface/system'
 import { deleteDept, getDepartmentsAll } from '@/api/modules/system'
 
 import DepartmentDialog from './components/departmentDialog.vue'
+
 onMounted(() => {
   onSearch()
 })
@@ -65,13 +66,9 @@ async function onSearch() {
 }
 
 const handleDelete = async (id: number) => {
-  const res = await deleteDept(id)
-  if (res.code !== 200) {
-    ElMessage.error(res.msg)
-  } else {
-    onSearch()
-    ElMessage.success(res.msg)
-  }
+  await deleteDept(id)
+  await onSearch()
+  ElMessage.success('删除成功')
 }
 
 const deptDialogRef = ref<InstanceType<typeof DepartmentDialog>>()

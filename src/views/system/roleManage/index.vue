@@ -38,7 +38,7 @@
             <el-tag type="danger" v-else>否</el-tag>
           </template>
         </el-table-column>
-        <el-table-column prop="createdAt" label="创建时间" width="180" />
+        <el-table-column prop="createTime" label="创建时间" width="180" />
         <el-table-column prop="remark" label="备注" />
         <el-table-column fixed="right" prop="operation" label="操作" width="160" align="center">
           <template #default="{ row }">
@@ -137,13 +137,9 @@ const handleCurrentChange = async (val: number) => {
 }
 
 const handleDelete = async (id: number) => {
-  const res = await deleteRole(id)
-  if (res.code !== 200) {
-    ElMessage.error(res.msg)
-  } else {
-    onSearch()
-    ElMessage.success(res.msg)
-  }
+  await deleteRole(id)
+  await onSearch()
+  ElMessage.success('删除成功')
 }
 
 const roleDialogRef = ref<InstanceType<typeof RoleDialog>>()

@@ -32,20 +32,14 @@ export const useAuthStore = defineStore({
     async getAuthMenuList() {
       try {
         const res = await getAuthMenuListApi()
-        if (res.code === 200) {
-          if (res.data.length === 0) {
-            // 菜单列表为空，则跳转到登录页
-            ElMessage.error('角色菜单列表为空，联系管理员')
-            return false
-          } else {
-            // 成功获取菜单列表
-            this.authMenuList = res.data
-            return true
-          }
-        } else {
-          ElMessage.error(res.msg)
-          // 获取菜单失败 则跳转到登录页
+        if (res.data.length === 0) {
+          // 菜单列表为空，则跳转到登录页
+          ElMessage.error('角色菜单列表为空，联系管理员')
           return false
+        } else {
+          // 成功获取菜单列表
+          this.authMenuList = res.data
+          return true
         }
       } catch (error) {
         console.log(error)

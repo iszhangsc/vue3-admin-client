@@ -36,11 +36,11 @@
             <el-form-item label="菜单权限" prop="menus">
               <div class="tree-config">
                 <el-checkbox v-model="treeExpand" @change="handleTreeExpand(treeExpand)"
-                  >展开/折叠</el-checkbox
-                >
+                  >展开/折叠
+                </el-checkbox>
                 <el-checkbox v-model="checkAll" @change="handleCheckAll(checkAll)"
-                  >全选/全不选</el-checkbox
-                >
+                  >全选/全不选
+                </el-checkbox>
                 <el-checkbox v-model="checkStrictly">父子联动</el-checkbox>
               </div>
 
@@ -70,7 +70,7 @@
         <div class="dialog-footer">
           <el-form-item>
             <el-button @click="handleCancel">取消</el-button>
-            <el-button type="primary" @click="handleConfirm"> 确认 </el-button>
+            <el-button type="primary" @click="handleConfirm"> 确认</el-button>
           </el-form-item>
         </div>
       </el-form>
@@ -106,11 +106,11 @@
             <el-form-item label="菜单权限" prop="menus">
               <div class="tree-config">
                 <el-checkbox v-model="treeExpand" @change="handleTreeExpand(treeExpand)"
-                  >展开/折叠</el-checkbox
-                >
+                  >展开/折叠
+                </el-checkbox>
                 <el-checkbox v-model="checkAll" @change="handleCheckAll(checkAll)"
-                  >全选/全不选</el-checkbox
-                >
+                  >全选/全不选
+                </el-checkbox>
                 <el-checkbox v-model="checkStrictly">父子联动</el-checkbox>
               </div>
               <div class="menu-tree">
@@ -139,7 +139,7 @@
         <div class="dialog-footer">
           <el-form-item>
             <el-button @click="handleCancel">取消</el-button>
-            <el-button type="primary" @click="handleConfirm"> 确认 </el-button>
+            <el-button type="primary" @click="handleConfirm"> 确认</el-button>
           </el-form-item>
         </div>
       </el-form>
@@ -154,6 +154,7 @@ import { addRole, editRole, getRoleMenus } from '@/api/modules/system'
 import { Role } from '@/api/interface/system'
 import { MenuTree, getTreeMenu } from '@/utils'
 import { useAuthStore } from '@/store/modules/auth'
+
 const isEdit = ref(false)
 const dialogVisible = ref(false)
 
@@ -258,11 +259,7 @@ const handleNew = () => {
 
 const setCheckedMenus = async (roleId: number) => {
   const res = await getRoleMenus(roleId)
-  if (res.code !== 200) {
-    ElMessage.error(res.msg)
-  } else {
-    editTreeRef.value!.setCheckedKeys(res.data, false)
-  }
+  editTreeRef.value!.setCheckedKeys(res.data, false)
 }
 
 const handleEdit = (row: Role) => {
@@ -308,15 +305,11 @@ const handleConfirm = () => {
         // 新增角色
         const newCheckedMenus = treeRef.value?.getCheckedKeys() as number[]
         roleForm.menus = newCheckedMenus
-        const res = await addRole(toRaw(roleForm))
-        if (res.code !== 200) {
-          ElMessage.error(res.msg)
-        } else {
-          roleFormRef.value?.resetFields()
-          dialogVisible.value = false
-          emits('refresh')
-          ElMessage.success(res.msg)
-        }
+        await addRole(toRaw(roleForm))
+        roleFormRef.value?.resetFields()
+        dialogVisible.value = false
+        emits('refresh')
+        ElMessage.success('新增成功')
       }
     })
   } else {
@@ -326,14 +319,10 @@ const handleConfirm = () => {
         console.log(newCheckedMenus)
         editRoleForm.menus = newCheckedMenus
         const res = await editRole(toRaw(editRoleForm))
-        if (res.code !== 200) {
-          ElMessage.error(res.msg)
-        } else {
-          editRoleFormRef.value?.resetFields()
-          dialogVisible.value = false
-          emits('refresh')
-          ElMessage.success(res.msg)
-        }
+        editRoleFormRef.value?.resetFields()
+        dialogVisible.value = false
+        emits('refresh')
+        ElMessage.success('修改成功')
       }
     })
   }
