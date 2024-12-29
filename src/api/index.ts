@@ -52,12 +52,12 @@ class Http {
         switch (code) {
           case 200:
             return response.data
-          case 401:
+          case 40100:
             ElMessage.warning('登录失效')
             useUserStore().setTokenWithExpires('', 0)
             await router.replace(LOGIN_URL)
             break
-          case 500:
+          case 50000:
             ElMessage.error('服务器内部错误，请稍后重试')
             break
           default:

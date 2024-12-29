@@ -1,5 +1,6 @@
 <template>
   <Tabs />
+  <global-notification />
   <el-main>
     <router-view v-slot="{ Component, route }">
       <transition name="fade-transform" mode="out-in" appear>
@@ -21,12 +22,14 @@ import Tabs from '@/layout/components/Tabs/index.vue'
 import { useKeepAliveStore } from '@/store/modules/keepAlive'
 import { useDebounceFn } from '@vueuse/core'
 import { useGlobalStore } from '@/store/modules/global'
+import GlobalNotification from '@/layout/components/GlobalNotification/index.vue'
 
 const keepAliveStore = useKeepAliveStore()
 const keepAliveNames = computed(() => keepAliveStore.keepAliveNames)
 
 // keepAlive缓存 将组件路径fullPath作为key 设置为Component 识别名称
 const wrapperMap = new Map()
+
 function createComponentWrapper(component: VNode, route: RouteLocationNormalizedLoaded) {
   if (!component) return
   const wrapperName = route.fullPath
